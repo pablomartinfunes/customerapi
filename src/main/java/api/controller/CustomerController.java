@@ -2,6 +2,8 @@ package api.controller;
 
 import api.model.Customer;
 import api.model.CustomerDAO;
+import api.response.CustomerResponse;
+import api.response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +62,23 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Customer> getCustomer(@PathVariable("id") Long id){
+    public ResponseEntity<CustomerResponse> getCustomer(@PathVariable("id") Long id){
+        CustomerResponse customerResponse;
+        Status status = new Status();
 
         Customer customer = customerDAO.findOne(id);
 
-        return new ResponseEntity<Customer>(customer, HttpStatus.OK);
+        if(customer != null){
+            status.setCode(1);
+            status.setDescription("Customer finded");
+        }else{
+            status.setCode(2);
+            status.setDescription("Customer not finded");
+        }
+
+        customerResponse = new CustomerResponse(status, customer);
+
+        return new ResponseEntity<CustomerResponse>(customerResponse, HttpStatus.OK);
     }
 
 

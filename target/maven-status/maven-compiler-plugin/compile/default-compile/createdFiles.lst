@@ -1,4 +1,6 @@
 api/Application.class
+api/response/Status.class
+api/controller/CustomerController.class
+api/response/CustomerResponse.class
 api/model/CustomerDAO.class
 api/model/Customer.class
-api/controller/CustomerController.class
